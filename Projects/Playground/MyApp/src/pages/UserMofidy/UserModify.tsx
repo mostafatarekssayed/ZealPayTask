@@ -34,6 +34,7 @@ export function UserModify({route, navigation}) {
         queryClient.invalidateQueries(
           `${LISTLOCATION}${route.params ? route.params.email : ''}`,
         );
+        queryClient.invalidateQueries(LISTLOCATION);
       },
     },
   );
@@ -44,6 +45,7 @@ export function UserModify({route, navigation}) {
         queryClient.invalidateQueries(
           `${LISTLOCATION}${route.params ? route.params.email : ''}`,
         );
+        queryClient.invalidateQueries(LISTLOCATION);
       },
     },
   );

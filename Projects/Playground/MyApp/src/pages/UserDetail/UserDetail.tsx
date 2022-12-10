@@ -29,6 +29,7 @@ export function UserDetail({route}) {
         queryClient.invalidateQueries(
           `${LISTLOCATION}${route.params ? route.params.email : ''}`,
         );
+        queryClient.invalidateQueries(LISTLOCATION);
       },
     },
   );
@@ -39,6 +40,7 @@ export function UserDetail({route}) {
         queryClient.invalidateQueries(
           `${LISTLOCATION}${route.params ? route.params.email : ''}`,
         );
+        queryClient.invalidateQueries(LISTLOCATION);
       },
     },
   );

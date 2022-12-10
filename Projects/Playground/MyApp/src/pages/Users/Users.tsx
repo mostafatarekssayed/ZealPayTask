@@ -1,12 +1,14 @@
 import {UserItem} from '../../components/UserItem/UserItem';
 import {useMutation, useQuery, useQueryClient} from 'react-query';
-import {LISTUSERS, pages} from '../../contsants/constants';
+import { LISTLOCATION, LISTUSERS, pages } from "../../contsants/constants";
 import {listUsers, deleteUser} from '../../Services/UserService';
 import {UserItemModel} from '../../models/UserItemModel';
-import {ActivityIndicator, ScrollView, Text, View} from 'react-native';
-import {Button, Pressable} from '@react-native-material/core';
+import {ActivityIndicator, ScrollView, View} from 'react-native';
+import { Button, Flex, Pressable, Text } from "@react-native-material/core";
 import Icon from 'react-native-vector-icons/Ionicons';
 import {LocationModel} from '../../models/LocationModel';
+import { listLocations } from "../../Services/LocationService";
+import { usersStyles } from "./Users.styles";
 
 export function Users({navigation}) {
   const {data, isLoading} = useQuery({
@@ -14,6 +16,12 @@ export function Users({navigation}) {
     queryFn: listUsers,
     enabled: true,
   });
+  const locationsData = useQuery({
+    queryKey: LISTLOCATION,
+    queryFn: listLocations,
+    enabled: true,
+  });
+
   const queryClient = useQueryClient();
   const deleteMutation = useMutation((email: string) => deleteUser(email), {
     onSuccess: () => {
@@ -62,6 +70,16 @@ export function Users({navigation}) {
         onPress={addNewUser}
         leading={_ => <Icon size={24} name={'add'} />}
       />
+      <Flex content={"end"} justify={"end"}  direction={"column"} >
+
+
+      {locationsData.data?<Text style={usersStyles.countText} variant={"h6"} >
+        Locations# {locationsData.data.data.locations.length}
+      </Text>:<></>}
+      {data?<Text style={usersStyles.countText} variant={"h6"} >
+        Users# {data.data.users.length}
+      </Text>:<></>}
+      </Flex>
       <ScrollView contentContainerStyle={{paddingVertical: 64}}>
         {isLoading ? <ActivityIndicator /> : <Users />}
       </ScrollView>
